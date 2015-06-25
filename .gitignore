@@ -1,0 +1,15 @@
+create_box
+sync.sh
+output-qemu/
+output-virtualbox-iso/
+packer_cache/
+*.orig
+*.bak
+*.tmp
+iso/
+build/
+/*.sh
+base-box/
+/*.box
+/*.gz
+/*.zip
