@@ -3,7 +3,9 @@
 set -e
 set -x
 
-sudo apt-get install libxrandr-dev \
+export DEBIAN_FRONTEND=noninteractive
+export DEBIAN_PRIORITY=critical
+sudo apt-get install -y -q libxrandr-dev \
 libsm-dev \
 libqt4-dev \
 qtmobility-dev \
