@@ -56,6 +56,21 @@
         "preseed/url=http://{{.HTTPIP}}:{{.HTTPPort}}/http/kubuntu.cfg ",
         "initrd=/initrd.gz -- <enter><wait>"
       ]
+    },
+    {
+    "type" : "virtualbox-ovf",
+    "headless": "{{user `headless`}}",
+    "shutdown_command": "{{user `shutdown_command`}}",
+    "source_path": "output-virtualbox-iso/{{ user `vmname`}}.ovf",
+    "ssh_password": "{{ user `ssh_password`}}",
+    "ssh_username": "{{ user `ssh_username`}}",
+    "ssh_wait_timeout": "{{ user `ssh_wait_timeout`}}",
+    "virtualbox_version_file": ".vbox_version",
+    "vm_name": "{{ user `vmname`}}",
+    "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "1024" ],
+        [ "modifyvm", "{{.Name}}", "--cpus",   "2"    ]
+      ]
     }
   ],
   "post-processors": [{

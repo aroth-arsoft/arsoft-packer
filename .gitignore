@@ -13,3 +13,4 @@ base-box/
 /*.box
 /*.gz
 /*.zip
+/output-virtualbox-ovf/

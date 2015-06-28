@@ -3,4 +3,4 @@
 set -e
 
 #export PACKER_LOG=1
-~/bin/packer build -only virtualbox-iso $1
+~/bin/packer build -only virtualbox-iso $@
