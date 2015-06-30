@@ -5,7 +5,10 @@ set -x
 
 export DEBIAN_FRONTEND=noninteractive
 export DEBIAN_PRIORITY=critical
-sudo apt-get install -y -q libxrandr-dev \
+sudo apt-get install -y -q git \
+cmake \
+clang clang-3.6 \
+libxrandr-dev \
 libsm-dev \
 libqt4-dev \
 qtmobility-dev \
