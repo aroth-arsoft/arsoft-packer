@@ -1,4 +1,3 @@
-create_box
 sync.sh
 output-qemu/
 output-virtualbox-iso/
@@ -14,3 +13,6 @@ base-box/
 /*.gz
 /*.zip
 /output-virtualbox-ovf/
+/tmp/
+/kubuntu-base/
+/kubuntu-terra-dev-amd64/
