@@ -1,6 +1,71 @@
 #!/bin/bash
+verbose=0
+list_machine_types=0
+machine_type=''
+script_file=`readlink -f "$0"`
+script_dir=`dirname "$script_file"`
+packer_bin=`which packer`
+packer_operation='build'
+
+
+function usage() {
+	echo "create_box <machine_type>"
+	echo "  -h,--help          this help message"
+	echo "  -v,--verbose       enables verbose output"
+	echo "  -l,--list          list available machine types"
+	exit 0
+}
+
+if [ -z "$packer_bin" ]; then
+    echo "Unable to find packer executable." 1>&2
+    echo "Go to https://www.packer.io/downloads.html and download the binaries for your platform" 1>&2
+    echo "and include the packger binary in PATH." 1>&2
+    exit 1
+fi
+
+# parse command line arguments
+while [ $# -ne 0 ]; do
+	case "$1" in
+		"-?"|"-h"|"--help") usage;;
+		"-v"|"--verbose") verbose=1; ;;
+		"-l"|"--list") list_machine_types=1; ;;
+		*)
+			if [ -z "$machine_type" ]; then
+				machine_type="$1"
+			else
+				echo "Too many arguments: $1" 1>&2
+				exit 1
+			fi
+		;;
+	esac
+	shift
+done
+
+if [ $list_machine_types -ne 0 ]; then
+    if [ -d "$script_dir/json" ]; then
+        echo "Available machine types (from $script_dir/json):"
+        for f in "$script_dir/json/"*.json; do
+            b=`basename "$f"`
+            echo "  ${b%.*}"
+        done
+        exit 0
+    else
+        echo "Directory $script_dir/json does not exist." 1>&2
+        exit 1
+    fi
+fi
+
+if [ -z "$machine_type" ]; then
+    echo "No machine type specified." 1>&2
+    exit 1
+fi
+
+machine_json="$script_dir/json/$machine_type.json"
+
+if [ ! -f "$machine_json" ]; then
+    echo "JSON file $machine_json for machine type $machine_type does not exist." 1>&2
+    exit 1
+fi
 
 set -e
-
-#export PACKER_LOG=1
-~/bin/packer build -only virtualbox-iso $@
+"$packer_bin" "$packer_operation" -only virtualbox-iso "$machine_json"
